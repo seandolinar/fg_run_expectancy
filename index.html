@@ -45,9 +45,11 @@
         }
         
         .re-table {
-            width: 100%;
+            width: 80%;
             height: 100%;
-            padding: 10%;
+            margin: auto;
+            table-layout: fixed;
+            border-collapse: collapse;
         }
         
         .re-bug {
@@ -80,16 +82,29 @@
         
         td {
             text-align: center;
+            height: 35px;
+            border: 1px solid black;
+            padding: 5px 0;
         }
         
         td.highlight {
-            background-color: green;
+            -webkit-box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
+            -moz-box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
+            box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
         }
         
         select.param {
             width: 100px;
             font-size: 1.2rem;
             padding: 20px;
+            border-radius: 0;
+            margin: 10px;
+        }
+        
+        input.param {
+            width: 100px;
+            font-size: 1.2rem;
+            /*padding: 20px;*/
             border-radius: 0;
             margin: 10px;
         }
@@ -114,6 +129,10 @@
         .div-button:active {
             background-color: #909090;
         }
+        .div-button.active {
+            background-color: #50ae26;
+        }
+        
         
         .out {
             fill: black;
@@ -167,30 +186,21 @@
                     </svg>
                 </div>
                 <div class="re-param">
-                    <div>
-                        <label>wOBA</label>
-                        <select class="param">
-                            <option label=".300" />
-                            <option />
-                        </select>
+                    <div class="bin woba">
+
                     </div>
-                    <div>
-                        <label>Run Environment</label>
-                        <select class="param">
-                            <option label="4.0" />
-                            <option />
-                        </select>
+                    <div class="bin runenv">
                     </div>
                 </div>
             </div>
             <div class="re-buttons">
                 <div class="re-buttons-row">
-                    <div class="div-button">Empirical</div>
-                    <div class="div-button">Smoothed</div>
+                    <div class="div-button type" value="emp">Empirical</div>
+                    <div class="div-button type" value="smo">Smoothed</div>
                 </div>
                 <div class="re-buttons-row">
-                    <div class="div-button">Table</div>
-                    <div class="div-button">Graph</div>
+                    <div class="div-button display" value="table">Table</div>
+                    <div class="div-button display" value="graph">Graph</div>
                 </div>
             </div>
         </div>
