@@ -15,29 +15,51 @@
             font-family: lato, arial;
         }
         
+        .d3-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
         .viz-container {
-            /*width: 300px;*/
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             flex-direction: row-reverse;
             justify-content: flex-end;
-            /*width: 700px;*/
+        }
+        
+        .box-title {
+            min-height: 50px;
+            margin-left: 5%;
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+        .box-sub {
+            font-size: 14px;
+            width: 60%;
+        }
+        
+        #fg-logo {
+            float: right;
+            width: 150px;
+            margin-top: 5px;
+            margin-right: 10px;
         }
         
         .box-1 {
             display: flex;
-            /*min-height: 500px;*/
             max-width: 600px;
             width: 100%;
-            order: 1;
+            order: 2;
+            margin: auto;
         }
         
         .box-2 {
             display: flex;
-            order: 2;
+            order: 3;
             flex-direction: column;
             align-items: center;
+            margin: auto;
         }
         
         .re-box-1 {
@@ -48,6 +70,8 @@
             width: 80%;
             height: 100%;
             margin: auto;
+            position: relative;
+            left: -5%;
             table-layout: fixed;
             border-collapse: collapse;
         }
@@ -71,13 +95,17 @@
         }
         
         .re-buttons {
-            display: block;
+            display: flex;
+            flex-direction: row;
+            /* margin: auto; */
+            flex-wrap: wrap;
         }
         
         .re-buttons-row {
             display: inline-block;
             margin-left: 15px;
             margin-right: 15px;
+            margin-bottom: 10px;
         }
         
         td {
@@ -88,9 +116,9 @@
         }
         
         td.highlight {
-            -webkit-box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
-            -moz-box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
-            box-shadow: inset 0px 0px 0px 3px rgba(170,0,0,1);
+            -webkit-box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
+            -moz-box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
+            box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
         }
         
         select.param {
@@ -129,78 +157,101 @@
         .div-button:active {
             background-color: #909090;
         }
+        
         .div-button.active {
             background-color: #50ae26;
         }
         
-        
         .out {
             fill: black;
         }
+        
         .out.active {
-            fill: red;
+            fill: rgba(170, 0, 0, 1);
         }
+        
         .base {
             fill: #A0A0A0;
         }
+        
         .base.active {
-            fill: yellow;
+            fill: #FDC60E;
         }
         
+        .box_rotate {
+            border: none;
+            -moz-transform: rotate(-90deg);
+            /* FF3.5+ */
+            -o-transform: rotate(-90deg);
+            /* Opera 10.5 */
+            -webkit-transform: rotate(-90deg);
+            /* Saf3.1+, Chrome */
+            filter: progid: DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+            /* IE6,IE7 */
+            -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+            /* IE8 */
+        }
     </style>
 
 </head>
 
 <body>
-    <div class="viz-container">
-        <div class="box-1">
-        </div>
-        <div class="box-2">
-            <div class="re-box-1">
-                <div class="re-bug">
-                    <svg width="100%" height="100%" viewBox="0 0 1000 700" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-                        xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-                        <g transform="matrix(1,0,0,1,138.956,-141.916)">
-                            <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
-                            class="base 1" />
-                        </g>
-                        <g transform="matrix(1,0,0,1,23.6959,-257.176)">
-                            <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
-                            class="base 2" />
-                        </g>
-                        <g transform="matrix(1,0,0,1,-91.4164,-142.064)">
-                            <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
-                            class="base 3" />
-                        </g>
-                        <g transform="matrix(-1,5.66554e-16,-5.66554e-16,-1,779.312,1219.3)">
-                            <path d="M117.345,657.912L183.125,705.704L183.476,783.767L52.543,782.698L51.565,705.704L117.345,657.912Z" style="fill:rgb(32,0,0);"
-                            class="home" />
-                        </g>
-                        <g transform="matrix(1,0,0,1,-2.28585,-324.552)">
-                            <circle cx="145.471" cy="676.938" r="59.814" class="out 1" />
-                        </g>
-                        <g transform="matrix(1,0,0,1,132.573,-324.552)">
-                            <circle cx="145.471" cy="676.938" r="59.814" class="out 2" />
-                        </g>
-                    </svg>
-                </div>
-                <div class="re-param">
-                    <div class="bin woba">
+    <div class="d3-container">
+        <div class="box-title"><img id="fg-logo" src="http://www.fangraphs.com/blogs/wp-content/uploads/2015/07/FG_logo_white.png"/>
+<div>Run Expectancy</div><div class="box-sub">Choose player wOBA and Run Enviroment to see wOBA's relationship with Run Expectancy</div></div>
+        <div class="viz-container2" style="display: block;">
 
-                    </div>
-                    <div class="bin runenv">
-                    </div>
+            <div class="viz-container">
+                <div class="box-1">
                 </div>
-            </div>
-            <div class="re-buttons">
-                <div class="re-buttons-row">
-                    <div class="div-button type" value="emp">Empirical</div>
-                    <div class="div-button type" value="smo">Smoothed</div>
-                </div>
-                <div class="re-buttons-row">
-                    <div class="div-button display" value="table">Table</div>
-                    <div class="div-button display" value="graph">Graph</div>
+                <div class="box-2">
+                    <div class="re-box-1">
+                        <div class="re-bug">
+                            <svg width="100%" height="100%" viewBox="0 0 1000 700" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+                                xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+                                <g transform="matrix(1,0,0,1,138.956,-141.916)">
+                                    <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
+                                    class="base 1" />
+                                </g>
+                                <g transform="matrix(1,0,0,1,23.6959,-257.176)">
+                                    <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
+                                    class="base 2" />
+                                </g>
+                                <g transform="matrix(1,0,0,1,-91.4164,-142.064)">
+                                    <path d="M637.46,380.297L745.139,487.976L637.46,595.655L529.781,487.976L637.46,380.297Z" style="stroke: black; stroke-width: 2px;"
+                                    class="base 3" />
+                                </g>
+                                <g transform="matrix(-1,5.66554e-16,-5.66554e-16,-1,779.312,1219.3)">
+                                    <path d="M117.345,657.912L183.125,705.704L183.476,783.767L52.543,782.698L51.565,705.704L117.345,657.912Z" style="fill:rgb(32,0,0);"
+                                    class="home" />
+                                </g>
+                                <g transform="matrix(1,0,0,1,-2.28585,-324.552)">
+                                    <circle cx="145.471" cy="676.938" r="59.814" class="out 1" />
+                                </g>
+                                <g transform="matrix(1,0,0,1,132.573,-324.552)">
+                                    <circle cx="145.471" cy="676.938" r="59.814" class="out 2" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="re-param">
+                            <div class="bin woba">
+
+                            </div>
+                            <div class="bin runenv">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="re-buttons">
+                        <div class="re-buttons-row">
+                            <div class="div-button type active" value="emp">Empirical</div>
+                            <div class="div-button type" value="smo">Smoothed</div>
+                        </div>
+                        <div class="re-buttons-row">
+                            <div class="div-button display" value="table">Table</div>
+                            <div class="div-button display active" value="graph">Graph</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

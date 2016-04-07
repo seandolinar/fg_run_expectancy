@@ -49,10 +49,14 @@ var m = {
             .append('table')
             .attr('class', 're-table')
 
+        reLabel = reTable.append('tr')
+        reLabel.append('th').attr('colspan',2)
+        reLabel.append('th').attr('colspan',3).style('font-size', '14px').text('Outs')
+
         reTh = reTable
             .append('tr')
-
-        reTh.append('th')
+                    
+        reTh.append('th').attr('colspan',2)
 
         reTh.selectAll('th.outs')
             .data(m.outs)
@@ -66,6 +70,8 @@ var m = {
             .append('tr')
             .attr('class', 'val')
             .attr('data-row', function(d, i) { return i; })
+            
+            d3.select('tr.val').append('td').attr('rowspan',8).attr('class','box_rotate').style('font-size', '14px').text('Base State')
     },
     table: function() {
 
@@ -82,7 +88,7 @@ var m = {
                     .enter()
                     .append('td')
                     .attr('data-column', function(d, i) { return i; })
-                    .text(function(d) { return d.toFixed(3); })
+                    .text(function(d) { return d.main.toFixed(3); })
             })
 
     },
@@ -94,8 +100,10 @@ var m = {
         
         //get reference
         m.foundation()
-
+        m.runRef()
+        console.log(m.data)
         var X = d3.scale.linear().domain(d3.extent(m.reRange.concat(m.reRangeRef))).range([0,95])
+        
         d3.selectAll('tr.val')
             .data([], function(d, i) {
                 d3.select(this)
@@ -112,14 +120,14 @@ var m = {
                     cell                    
                     .append('div')
                     .style('background-color', 'grey')
-                    .style('width', function(d) { return 50 + '%';})
+                    .style('width', function(d) { return X(d.ref) + '%' ;})
                     .style('height', '50%')
                     
                     
                     cell
                     .append('div')
                     .style('background-color', '#336699')
-                    .style('width', function(d) { return Math.max(X(d),0) + '%';})
+                    .style('width', function(d) { return Math.max(X(d.main),0) + '%';})
                     .style('height', '50%')
             })
         
@@ -127,7 +135,6 @@ var m = {
     build: function() {
 
         d3.selectAll('.bin').html('')
-        console.log(m.uType)
         if (m.uType == 'emp') {
             d3.selectAll('.bin.woba').append('label').text('wOBA')
             d3.selectAll('.bin.woba').append('select').classed('param woba', true)
@@ -226,11 +233,12 @@ var m = {
             m.uDisplay == 'table' ? m.table() : m.graph()
         })
     },
-    makeArray: function(data) {
+    makeArray: function(data, dataRef) {
             dataFull = []
             dataPart = []
             data.forEach(function(d, i) {
-                i % 3 == 0 && i != 0 ? (dataFull.push(dataPart), dataPart = [d]) : dataPart.push(d)
+                var obj = {main: d, ref: dataRef[i]}
+                i % 3 == 0 && i != 0 ? (dataFull.push(dataPart), dataPart = [obj]) : dataPart.push(obj)
             })
             dataFull.push(dataPart)
             return dataFull
@@ -255,8 +263,7 @@ var m = {
             data = data.map(function(d) { return parseFloat(d.RE) })
 
             m.reRange = d3.extent(data)
-            m.data = m.makeArray(data)
-            m.uDisplay == 'table' ? m.table() : m.graph()
+            m.runRef(data)
         })
     },
     runSmo: function() {
@@ -281,20 +288,22 @@ var m = {
                 }
             })
             
-            m.data = m.makeArray(dataFull.map(function(d) { return d['RE_smo']}))
-            m.uDisplay == 'table' ? m.table() : m.graph()
+            data = dataFull.map(function(d) { return d['RE_smo']})           
+            m.runRef(data)
+
         })
     },
-    runRef: function() {
-        d3.csv('/data/re-emp.csv', function(data) {
+    runRef: function(data) {
+        d3.csv('/data/re-emp.csv', function(dataRef) {
             
-            data
-                .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })
-                .filter(function(d) { return parseFloat(d.wOBA) == 'All' })
-            data.forEach(function(d) {
+            dataRef = dataRef
+                // .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })
+                .filter(function(d) { return d.wOBA == 'All' })
+            dataRef.forEach(function(d) {
                 d.baseState = parseInt(d['3B'] + d['2B'] + d['1B'], 2)
             });
-            data.sort(function(a, b) {
+            
+            dataRef.sort(function(a, b) {
                 if (a.baseState == b.baseState) {
                     return a.Outs - b.Outs
                 }
@@ -302,10 +311,13 @@ var m = {
                     return a.baseState - b.baseState
                 }
             })
-            data = data.map(function(d) { return parseFloat(d.RE) })
+            console.log(dataRef)
+            dataRef = dataRef.map(function(d) { return parseFloat(d.RE) })
             
-            m.reRangeRef = d3.extent(data)
-            m.dataRef = m.makeArray(data)
+            m.reRangeRef = d3.extent(dataRef)
+            m.dataRef = dataRef
+            m.data = m.makeArray(data, m.dataRef)
+            m.uDisplay == 'table' ? m.table() : m.graph()
             
         })
     }
