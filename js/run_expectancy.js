@@ -43,7 +43,7 @@ var m = {
         m.reRange = []
     },
     foundation: function() {
-         d3.selectAll('.box-1').select('*').remove()
+         d3.selectAll('.box-1').selectAll('*').remove()
 
         var reTable = d3.select('.box-1')
             .append('table')
@@ -72,6 +72,9 @@ var m = {
             .attr('data-row', function(d, i) { return i; })
             
             d3.select('tr.val').append('td').attr('rowspan',8).attr('class','box_rotate').style('font-size', '14px').text('Base State')
+            
+            d3.selectAll('.box-1').append('div').style('text-align', 'center').style('font-size', '12px').style('width', '300px').style('margin', 'auto').text('All values are average runs scored from that point until the end of the inning.')
+            
     },
     table: function() {
 
@@ -120,8 +123,10 @@ var m = {
                     cell                    
                     .append('div')
                     .style('background-color', 'grey')
-                    .style('width', function(d) { return X(d.ref) + '%' ;})
+                    .style('width', function(d) { return X(d.ref) + '%' ;})          
                     .style('height', '50%')
+                    .attr('class', 'data-bar')
+                    .attr('data-type', 'ref')
                     
                     
                     cell
@@ -129,8 +134,38 @@ var m = {
                     .style('background-color', '#336699')
                     .style('width', function(d) { return Math.max(X(d.main),0) + '%';})
                     .style('height', '50%')
+                    .attr('class', 'data-bar')
+                    .attr('data-type', 'main')
             })
-        
+            
+            d3.selectAll('.data-bar').on('mouseover', function() {
+                
+                var type = d3.select(this).attr('data-type')
+                
+                d3.select(this)
+                    .append('div')
+                    .attr('class', 'tooltip')
+                    .style('width', '80px')
+                    .style('height', '26px')
+                    .style('position', 'absolute')
+                    .style('right', '-87px')
+                    .style('bottom', '-4px')
+                    .style('z-index', '99')
+                    .style('color', 'white')
+                    .style('font-size', '12px')
+                    .style('line-height', '2')
+                    .style('background-color', 'rgba(0,0,0,.8)')
+                    .text(function(d) {return d[type].toFixed(3) + ' runs';})
+                    .append('div')
+                    .attr('class', 'arrow-left')
+            }).on('mouseout', function() {
+                d3.selectAll('.tooltip').remove()
+            })
+
+            var legend = d3.select('.box-1').insert("div",":first-child").attr('class', 'legend-box').style('text-align', 'center').style('position', 'relative').style('display', 'flex').style('margin', 'auto').style('font-size', '12px').style('margin-bottom', '10px')
+            legend.append('div').style('line-height','20px').style('margin-right', '20px').text('All Players').append('div').style('width', '20px').style('height', '20px').style('background-color', 'grey').style('margin-right', '5px').style('float', 'left')
+            legend.append('div').style('line-height','20px').text('wOBA Bucket').append('div').style('width', '20px').style('height', '20px').style('background-color', '#336699').style('margin-right', '5px').style('float', 'left')
+
     },
     build: function() {
 
@@ -244,7 +279,7 @@ var m = {
             return dataFull
     },
     runData: function() {
-        d3.csv('/data/re-emp.csv', function(data) {
+        d3.csv('data/re-emp.csv', function(data) {
 
             data = data
                 .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })
@@ -267,7 +302,7 @@ var m = {
         })
     },
     runSmo: function() {
-        d3.csv('/data/re-smo.csv', function(data) {
+        d3.csv('data/re-smo.csv', function(data) {
 
             var dataFull = []
             m.outs.forEach(function(d) {
@@ -294,7 +329,7 @@ var m = {
         })
     },
     runRef: function(data) {
-        d3.csv('/data/re-emp.csv', function(dataRef) {
+        d3.csv('data/re-emp.csv', function(dataRef) {
             
             dataRef = dataRef
                 // .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })

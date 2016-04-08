@@ -48,6 +48,7 @@
         
         .box-1 {
             display: flex;
+            flex-direction: column;
             max-width: 600px;
             width: 100%;
             order: 2;
@@ -97,7 +98,6 @@
         .re-buttons {
             display: flex;
             flex-direction: row;
-            /* margin: auto; */
             flex-wrap: wrap;
         }
         
@@ -119,6 +119,21 @@
             -webkit-box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
             -moz-box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
             box-shadow: inset 0px 0px 0px 3px rgba(170, 0, 0, 1);
+        }
+        
+        .data-bar {
+            position: relative;
+        }
+        
+        .arrow-left {
+            width: 0; 
+            height: 0; 
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent; 
+            border-right:7px solid rgba(0, 0, 0, .8); 
+            position: relative;
+            bottom: 18px;
+            left: -7px;
         }
         
         select.param {
@@ -199,8 +214,6 @@
     <div class="d3-container">
         <div class="box-title"><img id="fg-logo" src="http://www.fangraphs.com/blogs/wp-content/uploads/2015/07/FG_logo_white.png"/>
 <div>Run Expectancy</div><div class="box-sub">Choose player wOBA and Run Enviroment to see wOBA's relationship with Run Expectancy</div></div>
-        <div class="viz-container2" style="display: block;">
-
             <div class="viz-container">
                 <div class="box-1">
                 </div>
@@ -255,7 +268,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <script src="js/run_expectancy.js"></script>
 
