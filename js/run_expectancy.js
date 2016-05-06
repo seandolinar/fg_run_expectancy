@@ -63,7 +63,8 @@ var m = {
             .enter()
             .append('th')
             .text(function(d) { return d; })
-
+        console.log(m.data)
+        console.log(m.dataRef)
         reTable.selectAll('tr.val')
             .data(m.data)
             .enter()
@@ -73,7 +74,7 @@ var m = {
             
             d3.select('tr.val').append('td').attr('rowspan',8).attr('class','box_rotate').style('font-size', '14px').text('Base State')
             
-            d3.selectAll('.box-1').append('div').style('text-align', 'center').style('font-size', '12px').style('width', '300px').style('margin', 'auto').text('All values are average runs scored from that point until the end of the inning.')
+            d3.selectAll('.box-1').append('div').style('text-align', 'center').style('font-size', '12px').style('width', '300px').style('margin', 'auto').text('All values are average runs scored from that point until the end of the inning. "N/A" indicates that empirical data is unavailable.')
             
     },
     table: function() {
@@ -91,7 +92,19 @@ var m = {
                     .enter()
                     .append('td')
                     .attr('data-column', function(d, i) { return i; })
-                    .text(function(d) { return d.main.toFixed(3); })
+                    .style('color', function(d) {
+                        if (d.main == -1) {
+                            return '#A0A0A0'
+                        }
+                    })
+                    .text(function(d) { 
+                        if (d.main == -1) {
+                            return 'N/A'
+                        }
+                        else {
+                            return d.main.toFixed(3); 
+                        }
+                    })
             })
 
     },
@@ -112,7 +125,7 @@ var m = {
                 d3.select(this)
                     .append('td')
                     .text(m.baseStatesLabel[i])
-                    
+                                        
                 var cell = d3.select(this)
                     .selectAll('td.val')
                     .data(d)
@@ -136,6 +149,17 @@ var m = {
                     .style('height', '50%')
                     .attr('class', 'data-bar')
                     .attr('data-type', 'main')
+                    .style('color', function(d) {
+                        if (d.main == -1) {
+                            return '#336699'
+                        }
+                    })
+                    .style('font-size', '16px')
+                    .text(function(d) {
+                        if (d.main == -1) {
+                            return 'N/A'
+                        }
+                    })
             })
             
             d3.selectAll('.data-bar').on('mouseover', function() {
@@ -271,8 +295,10 @@ var m = {
     makeArray: function(data, dataRef) {
             dataFull = []
             dataPart = []
-            data.forEach(function(d, i) {
-                var obj = {main: d, ref: dataRef[i]}
+            console.log(data)
+            console.log(dataRef)
+            dataRef.forEach(function(d, i) {
+                var obj = {main: data[i] || -1, ref: d}
                 i % 3 == 0 && i != 0 ? (dataFull.push(dataPart), dataPart = [obj]) : dataPart.push(obj)
             })
             dataFull.push(dataPart)
@@ -333,7 +359,7 @@ var m = {
             
             dataRef = dataRef
                 // .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })
-                .filter(function(d) { return d.wOBA == 'All' })
+                .filter(function(d) { return d.wOBA == 'All' && parseFloat(d.RunEnv_) == m.uRunEnv })
             dataRef.forEach(function(d) {
                 d.baseState = parseInt(d['3B'] + d['2B'] + d['1B'], 2)
             });
@@ -346,7 +372,7 @@ var m = {
                     return a.baseState - b.baseState
                 }
             })
-            console.log(dataRef)
+
             dataRef = dataRef.map(function(d) { return parseFloat(d.RE) })
             
             m.reRangeRef = d3.extent(dataRef)
