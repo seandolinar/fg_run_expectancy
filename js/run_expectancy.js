@@ -117,7 +117,8 @@ var m = {
         //get reference
         m.foundation()
         m.runRef()
-        console.log(m.data)
+        console.log(m.reRange.concat(m.reRangeRef))
+        
         var X = d3.scale.linear().domain(d3.extent(m.reRange.concat(m.reRangeRef))).range([0,95])
         
         d3.selectAll('tr.val')
@@ -187,8 +188,8 @@ var m = {
             })
 
             var legend = d3.select('.box-1').insert("div",":first-child").attr('class', 'legend-box').style('text-align', 'center').style('position', 'relative').style('display', 'flex').style('margin', 'auto').style('font-size', '12px').style('margin-bottom', '10px')
-            legend.append('div').style('line-height','20px').style('margin-right', '20px').text('All Players').append('div').style('width', '20px').style('height', '20px').style('background-color', 'grey').style('margin-right', '5px').style('float', 'left')
-            legend.append('div').style('line-height','20px').text('wOBA Bucket').append('div').style('width', '20px').style('height', '20px').style('background-color', '#336699').style('margin-right', '5px').style('float', 'left')
+            legend.append('div').style('line-height','20px').style('margin-left', 'auto').style('margin-right', '20px').text('All Players').append('div').style('width', '20px').style('height', '20px').style('background-color', 'grey').style('margin-right', '5px').style('float', 'left')
+            legend.append('div').style('line-height','20px').style('margin-right', 'auto').text('wOBA Bucket').append('div').style('width', '20px').style('height', '20px').style('background-color', '#336699').style('margin-right', '5px').style('float', 'left')
 
     },
     build: function() {
@@ -198,13 +199,13 @@ var m = {
             d3.selectAll('.bin.woba').append('label').text('wOBA')
             d3.selectAll('.bin.woba').append('select').classed('param woba', true)
             m.wobaArray.forEach(function(d, i) {
-                d3.select('.param.woba').append('option').attr('label', d).attr('value', d)
+                d3.select('.param.woba').append('option').attr('label', d).attr('value', d).text(d)
             })
 
             d3.selectAll('.bin.runenv').append('label').text('Run Environment')
             d3.selectAll('.bin.runenv').append('select').classed('param runenv', true)
             m.runEnvArray.forEach(function(d, i) {
-                d3.select('.param.runenv').append('option').attr('label', d).attr('value', d)
+                d3.select('.param.runenv').append('option').attr('label', d).attr('value', d).text(d)
             })
             
             $('.param.woba').val('.300')
@@ -224,8 +225,8 @@ var m = {
             d3.selectAll('.bin.runenv').append('label').text('Run Environment')
             d3.selectAll('.bin.runenv').append('input').classed('param runenv', true)
                 .attr('type', 'number')
-                .attr('min', '3.0')
-                .attr('max', '6.0')
+                .attr('min', '3.7')
+                .attr('max', '5.0')
                 .attr('step', '.1')
             m.runSmo()
             $('.param.woba').val(m.uWoba)
@@ -349,7 +350,8 @@ var m = {
                 }
             })
             
-            data = dataFull.map(function(d) { return d['RE_smo']})           
+            data = dataFull.map(function(d) { return d['RE_smo']}) 
+            m.reRange = d3.extent(data)          
             m.runRef(data)
 
         })
@@ -359,7 +361,7 @@ var m = {
             
             dataRef = dataRef
                 // .filter(function(d) { return parseFloat(d.RunEnv_) == parseFloat(m.uRunEnv) })
-                .filter(function(d) { return d.wOBA == 'All' && parseFloat(d.RunEnv_) == m.uRunEnv })
+                .filter(function(d) { return d.wOBA == 'All' && parseFloat(d.RunEnv_) == Math.round(m.uRunEnv*4)/4 })
             dataRef.forEach(function(d) {
                 d.baseState = parseInt(d['3B'] + d['2B'] + d['1B'], 2)
             });
