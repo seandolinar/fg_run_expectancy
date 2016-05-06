@@ -74,7 +74,7 @@ var m = {
             
             d3.select('tr.val').append('td').attr('rowspan',8).attr('class','box_rotate').style('font-size', '14px').text('Base State')
             
-            d3.selectAll('.box-1').append('div').style('text-align', 'center').style('font-size', '12px').style('width', '300px').style('margin', 'auto').text('All values are average runs scored from that point until the end of the inning. "N/A" indicates that empirical data is unavailable.')
+            d3.selectAll('.box-1').append('div').style('text-align', 'center').style('font-size', '12px').style('width', '300px').style('margin', '10px auto').text('All values are average runs scored from that point until the end of the inning. "N/A" indicates that empirical data is unavailable.')
             
     },
     table: function() {
@@ -84,6 +84,7 @@ var m = {
             .data([], function(d, i) {
                 d3.select(this)
                     .append('td')
+                    //.style('width', '20px')
                     .text(m.baseStatesLabel[i])
 
                 d3.select(this)
@@ -92,6 +93,7 @@ var m = {
                     .enter()
                     .append('td')
                     .attr('data-column', function(d, i) { return i; })
+                    .attr('width', '120px')
                     .style('color', function(d) {
                         if (d.main == -1) {
                             return '#A0A0A0'
@@ -119,7 +121,9 @@ var m = {
         m.runRef()
         console.log(m.reRange.concat(m.reRangeRef))
         
-        var X = d3.scale.linear().domain(d3.extent(m.reRange.concat(m.reRangeRef))).range([0,95])
+        //var X = d3.scale.linear().domain(d3.extent(m.reRange.concat(m.reRangeRef))).range([0,95])
+        var X = d3.scale.linear().domain([0,2.75]).range([0,95])
+
         
         d3.selectAll('tr.val')
             .data([], function(d, i) {
@@ -132,6 +136,7 @@ var m = {
                     .data(d)
                     .enter()
                     .append('td')
+                    .attr('width', '150px')
                     .attr('data-column', function(d, i) { return i; })
                     
                     cell                    
@@ -145,10 +150,26 @@ var m = {
                     
                     cell
                     .append('div')
-                    .style('background-color', '#336699')
+                    .style('background-color', function(d){
+                        
+                        if (d.main > 2.75) {
+                            
+                        }
+                        else {
+                            return '#336699'
+                        }
+                    })
                     .style('width', function(d) { return Math.max(X(d.main),0) + '%';})
                     .style('height', '50%')
-                    .attr('class', 'data-bar')
+                    .attr('class', function(d){
+                        
+                        if (d.main > 2.75) {
+                            return 'data-bar hatch'
+                        }
+                        else {
+                            return 'data-bar'
+                        }
+                    })
                     .attr('data-type', 'main')
                     .style('color', function(d) {
                         if (d.main == -1) {
