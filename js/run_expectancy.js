@@ -189,7 +189,7 @@ var m = {
 
             var legend = d3.select('.box-1').insert("div",":first-child").attr('class', 'legend-box').style('text-align', 'center').style('position', 'relative').style('display', 'flex').style('margin', 'auto').style('font-size', '12px').style('margin-bottom', '10px')
             legend.append('div').style('line-height','20px').style('margin-left', 'auto').style('margin-right', '20px').text('All Players').append('div').style('width', '20px').style('height', '20px').style('background-color', 'grey').style('margin-right', '5px').style('float', 'left')
-            legend.append('div').style('line-height','20px').style('margin-right', 'auto').text('wOBA Bucket').append('div').style('width', '20px').style('height', '20px').style('background-color', '#336699').style('margin-right', '5px').style('float', 'left')
+            legend.append('div').style('line-height','20px').style('margin-left', 'auto').text('wOBA Bucket').append('div').style('width', '20px').style('height', '20px').style('background-color', '#336699').style('margin-right', '5px').style('float', 'left')
 
     },
     build: function() {
